@@ -19,15 +19,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    mainwidget.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    mainwidget.h \
     mainwindow.h
 
 FORMS += \
+    mainwidget.ui \
     mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

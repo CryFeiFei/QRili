@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QtWebEngineWidgets/QtWebEngineWidgets>
+#include "mainwidget.h"
+
 #include <QWebEngineView>
+#include <QSystemTrayIcon>
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -10,13 +12,31 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 
-	//QString strUrl = QString::fromLatin1("https://rili.wps.cn");
-	QString strUrl = QString::fromLatin1("https://rili.wps.cn/home");
-	QWebEngineView* m_webView = new QWebEngineView(this);
-	m_webView->load(QUrl(strUrl));
-//	m_webView->showNormal();
+	QAction* miniSizeAction = new QAction("最小化(&N)",this);
+	QAction* maxSizeAction = new QAction("最大化(&X)",this);
+	QAction* restoreWinAction = new QAction("还 原(&R)",this);
+	QAction* quitAction = new QAction("退出(&Q)",this);
+	connect(miniSizeAction,SIGNAL(triggered()),this,SLOT(hide()));
+	connect(maxSizeAction,SIGNAL(triggered()),this,SLOT(showMaximized()));
+	connect(restoreWinAction,SIGNAL(triggered()),this,SLOT(showNormal()));
+	connect(quitAction,SIGNAL(triggered()),qApp,SLOT(quit()));
 
-	setCentralWidget(m_webView);
+
+	// 设置托盘图标
+
+	QMenu* menu = new QMenu(this);
+	menu->addAction(miniSizeAction);
+	menu->addAction(maxSizeAction);
+	menu->addAction(restoreWinAction);
+	menu->addAction(quitAction);
+
+	QSystemTrayIcon* systray = new QSystemTrayIcon(this);
+	systray->setIcon(QIcon(":/application/image/icon.svg"));
+	systray->setContextMenu(menu);
+	systray->show();
+
+	MainWidget* widget = new MainWidget(this);
+	setCentralWidget(widget);
 }
 
 MainWindow::~MainWindow()
