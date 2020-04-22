@@ -20,27 +20,6 @@ FLWidget_Linux::FLWidget_Linux(QWidget *parent) : QWidget(parent)
 
 	setStyleSheet("background-color:white;");
 
-	QAction* miniSizeAction = new QAction("最小化(&N)",this);
-	QAction* maxSizeAction = new QAction("最大化(&X)",this);
-	QAction* restoreWinAction = new QAction("还 原(&R)",this);
-	QAction* quitAction = new QAction("退出(&Q)",this);
-	connect(miniSizeAction,SIGNAL(triggered()),this,SLOT(hide()));
-	connect(maxSizeAction,SIGNAL(triggered()),this,SLOT(showMaximized()));
-	connect(restoreWinAction,SIGNAL(triggered()),this,SLOT(showNormal()));
-	connect(quitAction,SIGNAL(triggered()),qApp,SLOT(quit()));
-
-	// 设置托盘图标
-	QMenu* menu = new QMenu(this);
-	menu->addAction(miniSizeAction);
-	menu->addAction(maxSizeAction);
-	menu->addAction(restoreWinAction);
-	menu->addAction(quitAction);
-
-	QSystemTrayIcon* systray = new QSystemTrayIcon(this);
-	systray->setIcon(QIcon(":/application/image/icon.svg"));
-	systray->setContextMenu(menu);
-	systray->show();
-
 	QVBoxLayout* layoutMain = new QVBoxLayout(this);
 	layoutMain->setContentsMargins(ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth);
 
@@ -56,6 +35,30 @@ FLWidget_Linux::FLWidget_Linux(QWidget *parent) : QWidget(parent)
 	XUtils::SetMouseTransparent(this, true);
 	setAttribute(Qt::WA_ShowModal);
 	resize(400, 400);
+}
+
+void FLWidget_Linux::_initTray()
+{
+	QAction* miniSizeAction = new QAction("最小化(&N)",this);
+	QAction* maxSizeAction = new QAction("最大化(&X)",this);
+	QAction* restoreWinAction = new QAction("还 原(&R)",this);
+	QAction* quitAction = new QAction("退出(&Q)",this);
+	connect(miniSizeAction,SIGNAL(triggered()),this,SLOT(hide()));
+	connect(maxSizeAction,SIGNAL(triggered()),this,SLOT(showMaximized()));
+	connect(restoreWinAction,SIGNAL(triggered()),this,SLOT(showNormal()));
+	connect(quitAction,SIGNAL(triggered()),qApp,SLOT(quit()));
+
+	// 设置托盘图标
+	m_trayMenu = new QMenu(this);
+	m_trayMenu->addAction(miniSizeAction);
+	m_trayMenu->addAction(maxSizeAction);
+	m_trayMenu->addAction(restoreWinAction);
+	m_trayMenu->addAction(quitAction);
+
+	m_tray = new QSystemTrayIcon(this);
+	m_tray->setIcon(QIcon(":/application/image/icon.svg"));
+	m_tray->setContextMenu(menu);
+	m_tray->show();
 }
 
 

@@ -27,9 +27,14 @@ public:
 	void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 	void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
 
+private:
+	void _initTray();
+
 public:
-	XUtils::CornerEdge resizingCornerEdge;
-	Qt::WindowFlags     dwindowFlags;
+	XUtils::CornerEdge	resizingCornerEdge;
+	Qt::WindowFlags		dwindowFlags;
+	QSystemTrayIcon*	m_tray;
+	QMenu*				m_trayMenu;
 };
 
 #endif // FLWIDGET_LINUX_H
