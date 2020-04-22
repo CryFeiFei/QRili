@@ -24,6 +24,7 @@ signals:
 	void miniButtonClicked();
 	void maxButtonClicked();
 	void closeButtonClicked();
+	void normalButtonClicked();
 
 protected:
 	void mousePressEvent(QMouseEvent* e) override;

@@ -11,6 +11,8 @@
 #include <QSystemTrayIcon>
 #include <QApplication>
 
+#include <QMainWindow>
+
 class FLWidget_Linux : public QWidget
 {
 	Q_OBJECT
@@ -19,7 +21,11 @@ public:
 
 signals:
 
-public slots:
+private slots:
+	void trayClicked(QSystemTrayIcon::ActivationReason reason);
+
+	void showNormalSize();
+//	void rightClicked();
 
 public:
 	void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;

@@ -9,6 +9,8 @@
 #include <QSystemTrayIcon>
 #include <QApplication>
 
+#include <QDebug>
+
 namespace
 {
 	#define ResizeHandleWidth 2
@@ -20,11 +22,18 @@ FLWidget_Linux::FLWidget_Linux(QWidget *parent) : QWidget(parent)
 
 	setStyleSheet("background-color:white;");
 
+	_initTray();
+
 	QVBoxLayout* layoutMain = new QVBoxLayout(this);
 	layoutMain->setContentsMargins(ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth);
 
 	KTitleWidget* titleWidget = new KTitleWidget(this);
 	layoutMain->addWidget(titleWidget);
+	connect(titleWidget, SIGNAL(closeButtonClicked()), this, SLOT(hide()));
+	connect(titleWidget, SIGNAL(maxButtonClicked()), this, SLOT(showMaximized()));
+	connect(titleWidget, SIGNAL(normalButtonClicked()), this, SLOT(showNormalSize()));
+
+
 	MainWidget* widget = new MainWidget(this);
 	layoutMain->addWidget(widget);
 
@@ -33,8 +42,7 @@ FLWidget_Linux::FLWidget_Linux(QWidget *parent) : QWidget(parent)
 	resizingCornerEdge = XUtils::CornerEdge::kInvalid;
 	setMouseTracking(true);
 	XUtils::SetMouseTransparent(this, true);
-	setAttribute(Qt::WA_ShowModal);
-	resize(400, 400);
+	resize(800, 800);
 }
 
 void FLWidget_Linux::_initTray()
@@ -47,7 +55,6 @@ void FLWidget_Linux::_initTray()
 	connect(maxSizeAction,SIGNAL(triggered()),this,SLOT(showMaximized()));
 	connect(restoreWinAction,SIGNAL(triggered()),this,SLOT(showNormal()));
 	connect(quitAction,SIGNAL(triggered()),qApp,SLOT(quit()));
-
 	// 设置托盘图标
 	m_trayMenu = new QMenu(this);
 	m_trayMenu->addAction(miniSizeAction);
@@ -57,8 +64,31 @@ void FLWidget_Linux::_initTray()
 
 	m_tray = new QSystemTrayIcon(this);
 	m_tray->setIcon(QIcon(":/application/image/icon.svg"));
-	m_tray->setContextMenu(menu);
+	m_tray->setContextMenu(m_trayMenu);
+
+	connect(m_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
+
 	m_tray->show();
+}
+
+void FLWidget_Linux::showNormalSize()
+{
+	this->resize(800, 800);
+	this->showNormal();
+}
+
+void FLWidget_Linux::trayClicked(QSystemTrayIcon::ActivationReason reason)
+{
+	switch (reason) {
+	case QSystemTrayIcon::Trigger:
+		this->hide();
+		break;
+	case QSystemTrayIcon::DoubleClick:
+		this->showNormal();
+		break;
+	default:
+		break;
+	}
 }
 
 

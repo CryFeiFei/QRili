@@ -17,9 +17,12 @@ KTitleWidget::KTitleWidget(QWidget *parent) :
 	connect(ui->miniButton, SIGNAL(clicked()), this, SIGNAL(miniButtonClicked()));
 	connect(ui->maxButton, SIGNAL(clicked()), this, SIGNAL(maxButtonClicked()));
 	connect(ui->closeButton, SIGNAL(clicked()), this, SIGNAL(closeButtonClicked()));
+	connect(ui->normalButton, SIGNAL(clicked()), this, SIGNAL(normalButtonClicked()));
 
 	setMinimumHeight(50);
 	setMaximumHeight(50);
+
+	ui->miniButton->setVisible(false);
 }
 
 KTitleWidget::~KTitleWidget()
