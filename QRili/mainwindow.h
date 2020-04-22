@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "xutil.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,6 +15,16 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
+
+public:
+	void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+	void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+	void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+	void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+
+
+	XUtils::CornerEdge resizingCornerEdge;
+	Qt::WindowFlags     dwindowFlags;
 
 private:
 	Ui::MainWindow *ui;

@@ -1,23 +1,24 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
+#include "flwidget_linux.h"
 #include "mainwidget.h"
+#include "ktitlewidget.h"
 
-#include <QWebEngineView>
-#include <QSystemTrayIcon>
-#include <QMouseEvent>
 #include <QLayout>
+#include <QMouseEvent>
+#include <QVBoxLayout>
+#include <QMenu>
+#include <QSystemTrayIcon>
+#include <QApplication>
 
 namespace
 {
-	#define ResizeHandleWidth 10
+	#define ResizeHandleWidth 2
 }
 
-MainWindow::MainWindow(QWidget *parent)
-	: QMainWindow(parent)
-	, ui(new Ui::MainWindow)
+FLWidget_Linux::FLWidget_Linux(QWidget *parent) : QWidget(parent)
 {
-	ui->setupUi(this);
+	setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+
+	setStyleSheet("background-color:white;");
 
 	QAction* miniSizeAction = new QAction("最小化(&N)",this);
 	QAction* maxSizeAction = new QAction("最大化(&X)",this);
@@ -28,9 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(restoreWinAction,SIGNAL(triggered()),this,SLOT(showNormal()));
 	connect(quitAction,SIGNAL(triggered()),qApp,SLOT(quit()));
 
-
 	// 设置托盘图标
-
 	QMenu* menu = new QMenu(this);
 	menu->addAction(miniSizeAction);
 	menu->addAction(maxSizeAction);
@@ -42,24 +41,25 @@ MainWindow::MainWindow(QWidget *parent)
 	systray->setContextMenu(menu);
 	systray->show();
 
-	//
-	setWindowFlags(Qt::FramelessWindowHint);
-	this->layout()->setContentsMargins(ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth);
+	QVBoxLayout* layoutMain = new QVBoxLayout(this);
+	layoutMain->setContentsMargins(ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth, ResizeHandleWidth);
+
+	KTitleWidget* titleWidget = new KTitleWidget(this);
+	layoutMain->addWidget(titleWidget);
+	MainWidget* widget = new MainWidget(this);
+	layoutMain->addWidget(widget);
+
+	setLayout(layoutMain);
+
 	resizingCornerEdge = XUtils::CornerEdge::kInvalid;
 	setMouseTracking(true);
-
-
-	MainWidget* widget = new MainWidget(this);
-	setCentralWidget(widget);
-	move(300, 300);
+	XUtils::SetMouseTransparent(this, true);
+	setAttribute(Qt::WA_ShowModal);
+	resize(400, 400);
 }
 
-MainWindow::~MainWindow()
-{
-	delete ui;
-}
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
+void FLWidget_Linux::mouseMoveEvent(QMouseEvent *event)
 {
 #ifdef Q_OS_LINUX
 	const int x = event->x();
@@ -74,7 +74,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 	return QWidget::mouseMoveEvent(event);
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event)
+void FLWidget_Linux::mousePressEvent(QMouseEvent *event)
 {
 #ifdef Q_OS_LINUX
 	const int x = event->x();
@@ -94,7 +94,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 	return QWidget::mousePressEvent(event);
 }
 
-void MainWindow::resizeEvent(QResizeEvent *e)
+void FLWidget_Linux::resizeEvent(QResizeEvent *e)
 {
 #ifdef Q_OS_LINUX
 	int resizeHandleWidth = ResizeHandleWidth;
@@ -103,7 +103,7 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 	return QWidget::resizeEvent(e);
 }
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+void FLWidget_Linux::mouseReleaseEvent(QMouseEvent *event)
 {
 #ifdef Q_OS_LINUX
 	resizingCornerEdge = XUtils::CornerEdge::kInvalid;

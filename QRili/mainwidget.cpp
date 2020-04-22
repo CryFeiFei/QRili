@@ -3,6 +3,7 @@
 
 #include <QWebEngineView>
 #include <QVBoxLayout>
+#include "ktitlewidget.h"
 
 MainWidget::MainWidget(QWidget *parent) :
 	QWidget(parent),
@@ -18,6 +19,8 @@ MainWidget::MainWidget(QWidget *parent) :
 	webView->setAttribute(Qt::WA_KeyCompression,true);
 	webView->setFont(QFont("Source Code Pro"));
 	webView->load(QUrl(strUrl));
+
+	setMouseTracking(true);
 
 	mainLayout->addWidget(webView);
 

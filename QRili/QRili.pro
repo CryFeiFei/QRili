@@ -17,16 +17,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+unix:!macx {
+    CONFIG += link_pkgconfig
+    PKGCONFIG += xext
+    QT += x11extras dbus
+    LIBS += -lX11
+
+    SOURCES += xutil.cpp \
+        flwidget_linux.cpp
+
+    HEADERS += xutil.h \
+        flwidget_linux.h
+}
+
 SOURCES += \
+    ktitlewidget.cpp \
     main.cpp \
     mainwidget.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    ktitlewidget.h \
     mainwidget.h \
     mainwindow.h
 
 FORMS += \
+    ktitlewidget.ui \
     mainwidget.ui \
     mainwindow.ui
 
