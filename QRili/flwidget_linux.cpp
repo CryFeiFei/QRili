@@ -43,6 +43,7 @@ FLWidget_Linux::FLWidget_Linux(QWidget *parent) : QWidget(parent)
 	setMouseTracking(true);
 	XUtils::SetMouseTransparent(this, true);
 	resize(800, 800);
+	m_initGeometry = this->geometry();
 }
 
 void FLWidget_Linux::_initTray()
@@ -73,8 +74,11 @@ void FLWidget_Linux::_initTray()
 
 void FLWidget_Linux::showNormalSize()
 {
-	this->resize(800, 800);
-	this->showNormal();
+//	showMinimized();
+//	this->resize(800, 800);
+//	this->move(900, 900);
+	setGeometry(600,600, 800, 800);
+//	this->showNormal();
 }
 
 void FLWidget_Linux::trayClicked(QSystemTrayIcon::ActivationReason reason)

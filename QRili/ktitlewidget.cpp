@@ -2,6 +2,63 @@
 #include "ui_ktitlewidget.h"
 #include <QMouseEvent>
 
+namespace
+{
+	const QString qssCloseButton =
+		"QPushButton {"
+			"border: 0px solid;"
+			"image:url(:/images/wechatcustomerservice/close_normal.png);"
+		"}"
+		"QPushButton:hover:!pressed {"
+			"image:url(:/images/wechatcustomerservice/close_hover.png);"
+		"}"
+		"QPushButton:pressed {"
+			"image:url(:/images/wechatcustomerservice/close_down.png);"
+		"}";
+
+	const static QString qssCancelButton =
+		"QPushButton {"
+			"color:#4F5D79;"
+			"background-color:rgba(255,255,255,1);"
+			"border-radius:4px;"
+			"border:1px solid;"
+			"border-color:rgba(54,66,90,30%);"
+		"}"
+		"QPushButton:hover:!pressed {"
+			"background-color:#F1F3F5;"
+			"color:#36425A;"
+			"border-radius:4px;"
+			"border:1px solid;"
+			"border-color:rgba(54,66,90,30%);"
+		"}"
+		"QPushButton:pressed {"
+			"background-color:rgba(139,151,175,30%);"
+			"border-radius:4px;"
+			"border:none;"
+			"color:#36425A;"
+		"}";
+
+	const static QString qssRetryButton =
+		"QPushButton {"
+			"color:#FFFFFF;"
+			"background-color:#417FF9;"
+			"border-radius:4px;"
+			"border:none;"
+		"}"
+		"QPushButton:hover:!pressed {"
+			"background-color:#608DFA;"
+			"color:#FFFFFF;"
+			"border-radius:4px;"
+			"border:none;"
+		"}"
+		"QPushButton:pressed {"
+			"background-color:#1F72F1;"
+			"border-radius:4px;"
+			"border:none;"
+			"color:#FFFFFF;"
+		"}";
+}
+
 KTitleWidget::KTitleWidget(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::KTitleWidget)
@@ -18,6 +75,16 @@ KTitleWidget::KTitleWidget(QWidget *parent) :
 	connect(ui->maxButton, SIGNAL(clicked()), this, SIGNAL(maxButtonClicked()));
 	connect(ui->closeButton, SIGNAL(clicked()), this, SIGNAL(closeButtonClicked()));
 	connect(ui->normalButton, SIGNAL(clicked()), this, SIGNAL(normalButtonClicked()));
+
+	ui->miniButton->setStyleSheet(qssRetryButton);
+	ui->maxButton->setStyleSheet(qssRetryButton);
+	ui->closeButton->setStyleSheet(qssRetryButton);
+	ui->normalButton->setStyleSheet(qssRetryButton);
+
+	ui->miniButton->setFixedSize(48, 48);
+	ui->maxButton->setFixedSize(48, 48);
+	ui->closeButton->setFixedSize(48, 48);
+	ui->normalButton->setFixedSize(48, 48);
 
 	setMinimumHeight(50);
 	setMaximumHeight(50);

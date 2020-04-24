@@ -4,7 +4,7 @@
 #include <QWebEngineView>
 #include <QVBoxLayout>
 #include "ktitlewidget.h"
-
+#include <QLineEdit>
 MainWidget::MainWidget(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::MainWidget)
@@ -21,7 +21,6 @@ MainWidget::MainWidget(QWidget *parent) :
 	webView->load(QUrl(strUrl));
 
 	setMouseTracking(true);
-
 	mainLayout->addWidget(webView);
 
 	setLayout(mainLayout);

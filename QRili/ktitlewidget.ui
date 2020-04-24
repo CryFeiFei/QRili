@@ -62,7 +62,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="normalButton">
+      <widget class="QPushButton" name="normalButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -75,7 +75,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="miniButton">
+      <widget class="QPushButton" name="miniButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -88,7 +88,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="maxButton">
+      <widget class="QPushButton" name="maxButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -101,7 +101,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="closeButton">
+      <widget class="QPushButton" name="closeButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>

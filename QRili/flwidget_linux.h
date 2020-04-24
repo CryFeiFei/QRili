@@ -41,6 +41,7 @@ public:
 	Qt::WindowFlags		dwindowFlags;
 	QSystemTrayIcon*	m_tray;
 	QMenu*				m_trayMenu;
+	QRect				m_initGeometry;
 };
 
 #endif // FLWIDGET_LINUX_H
